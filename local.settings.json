@@ -3,6 +3,6 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "AppConfigKey": "Endpoint=https://[XXX].azconfig.io;[KEYS]"
+    "AppConfigKey": "https://yevappconfiguration.azconfig.io"
   }
 }

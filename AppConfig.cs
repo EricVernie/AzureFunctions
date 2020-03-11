@@ -1,3 +1,4 @@
+using Azure.Identity;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -26,8 +27,24 @@ namespace FnAppConfig
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             key = key ?? data?.name;
             var builder = new ConfigurationBuilder();
-            builder.AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AppConfigKey"));
-            var config = builder.Build();
+            //builder.AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AppConfigKey"));
+            var appConfigEndpoint=Environment.GetEnvironmentVariable("AppConfigKey");
+
+            builder.AddAzureAppConfiguration(options =>
+                    options.Connect(new Uri(appConfigEndpoint),
+                                    new ManagedIdentityCredential()));
+
+            IConfigurationRoot config = null;
+            try
+            {
+                config = builder.Build();
+            }
+            catch(Exception ex)
+            {
+                
+                return new BadRequestObjectResult(ex.Message);
+            }
+            
 
 
 
